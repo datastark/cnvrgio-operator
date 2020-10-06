@@ -18,19 +18,17 @@ provisioner:
   inventory:
     group_vars:
       all:
-        namespace: ${TEST_OPERATOR_NAMESPACE:-cnvrg}
+        namespace: "cnvrg"
     host_vars:
       localhost:
         ansible_python_interpreter: '{{ ansible_playbook_python }}'
-        root_dir: ${MOLECULE_PROJECT_DIRECTORY}
         config_dir: ${MOLECULE_PROJECT_DIRECTORY}/config
         samples_dir: ${MOLECULE_PROJECT_DIRECTORY}/config/samples
-        operator_image: ${OPERATOR_IMAGE:-"docker.io/cnvrg/cnvrg-operator:molecule-testing"}
+        operator_image: ${OPERATOR_IMAGE:-""}
         operator_pull_policy: ${OPERATOR_PULL_POLICY:-"Always"}
         kustomize: ${KUSTOMIZE_PATH:-kustomize}
   env:
     K8S_AUTH_KUBECONFIG: ${KUBECONFIG:-"~/.kube/config"}
-    ANSIBLE_ROLES_PATH: ":${MOLECULE_PROJECT_DIRECTORY}/molecule/roles"
 verifier:
   name: ansible
   lint: |

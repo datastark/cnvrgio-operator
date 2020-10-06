@@ -15,14 +15,12 @@ docker = "*"
 dotmap = "*"
 pandas = "*"
 inflection = "*"
+html-testrunner = "*"
 
 [requires]
 python_version = "3.8"
-
-
 
 [scripts]
 op = "ansible-operator run"
 #  pipenv run ansible-playbook playbooks/cnvrg.yml --extra-vars='{"debug":"true","dry_run":"true","ansible_operator_meta":{"namespace":"cnvrg"}}'
 #
-

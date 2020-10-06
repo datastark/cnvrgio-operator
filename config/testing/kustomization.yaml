@@ -7,10 +7,10 @@ namespace: cnvrg
 #  someName: someValue
 
 # - ../default/manager_auth_proxy_patch.yaml
+#- pull_policy/Always.yaml
 patchesStrategicMerge:
 - manager_image.yaml
 - debug_logs_patch.yaml
-- pull_policy/Always.yaml
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
@@ -21,4 +21,4 @@ resources:
 images:
 - name: testing
   newName: docker.io/cnvrg/cnvrg-operator
-  newTag: molecule-testing
+  newTag: taint-DOP-392.1

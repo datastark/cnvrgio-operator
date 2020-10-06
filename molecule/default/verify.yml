@@ -10,6 +10,7 @@
     ctrl_label: control-plane=controller-manager
 
   tasks:
+
     - block:
         - name: Import all test files from tasks/
           include_tasks: '{{ item }}'

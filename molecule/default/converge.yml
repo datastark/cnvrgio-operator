@@ -7,9 +7,16 @@
     - community.kubernetes
 
   tasks:
-    - name: Import Vars
-      import_role:
-        name: get_vars
-    - name: Test cnvrg
-      import_role:
-        name: test_cnvrg
+    - name: print ns
+      debug:
+        msg: "{{ namespace }}"
+
+    - name: Create Namespace
+      k8s:
+        api_version: v1
+        kind: Namespace
+        name: '{{ namespace }}'
+
+    - import_tasks: kustomize.yml
+      vars:
+        state: present

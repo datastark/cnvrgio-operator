@@ -21,7 +21,7 @@ provisioner:
   inventory:
     group_vars:
       all:
-        namespace: ${TEST_OPERATOR_NAMESPACE:-osdk-test}
+        namespace: "cnvrg"
     host_vars:
       localhost:
         ansible_python_interpreter: '{{ ansible_playbook_python }}'
@@ -35,6 +35,7 @@ provisioner:
   env:
     K8S_AUTH_KUBECONFIG: ${MOLECULE_EPHEMERAL_DIRECTORY}/kubeconfig
     KUBECONFIG: ${MOLECULE_EPHEMERAL_DIRECTORY}/kubeconfig
+    ANSIBLE_STDOUT_CALLBACK: debug
 verifier:
   name: ansible
   lint: |
