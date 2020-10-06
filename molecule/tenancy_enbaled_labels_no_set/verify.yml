@@ -1,0 +1,25 @@
+---
+- name: Verify
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - community.kubernetes
+
+  vars:
+    ctrl_label: control-plane=controller-manager
+
+  tasks:
+
+    - block:
+        - name: Import all test files from tasks/
+          include_tasks: '{{ item }}'
+          vars:
+            task: "{{ item }}"
+          with_fileglob:
+            - tasks/*_test.yml
+      rescue:
+      - name: fetch error
+        debug:
+          msg: "error accoured"
+

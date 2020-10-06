@@ -1,0 +1,22 @@
+- name: "{{ task }}: get pod"
+  k8s_info:
+    kind: Pod
+    label_selectors:
+      - app = postgres
+  register: pod
+
+- name: "{{ task }}: print pod"
+  debug:
+    msg: "{{ pod | to_nice_yaml}}"
+
+- name: " {{ task }}: check that exact one pod created"
+  assert:
+    that: pod.resources|length == 1
+
+- name: "{{ task }}: check pod status"
+  assert:
+    that: pod.resources[0].status.phase == "Pending"
+
+- name: "{{ task }}: check pod message"
+  assert:
+    that: "{{ 'nodes are available' in pod.resources[0].status.conditions[0].message }}"
