@@ -8,6 +8,6 @@ istio:
   ingress_svc_annotations: "" # https://gist.github.com/mgoodness/1a2926f3b02d8e8149c224d25cc57dc1, https://kubernetes.io/docs/concepts/cluster-administration/cloud-providers/
   images:
     operator_image: "docker.io/istio/operator:1.7.3"
-    proxy_image: "proxyv2"
-    mixer_image: "mixer"
-    pilot_image: "pilot"
+    proxy_image: "docker.io/istio/proxyv2:1.7.3"
+    mixer_image: "docker.io/istio/mixer:1.7.3"
+    pilot_image: "docker.io/istio/pilot:1.7.3"

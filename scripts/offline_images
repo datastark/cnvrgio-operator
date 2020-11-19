@@ -1,0 +1,56 @@
+import yaml
+import inflection
+from pandas.io.json._normalize import nested_to_record
+
+
+def parse_roles_vars():
+    docker_images = {}
+    with open(r'../playbooks/cnvrg.yml') as file:
+        playbook = yaml.load(file, Loader=yaml.FullLoader)
+    for task in playbook[0]['tasks']:
+        if 'name' not in task:
+            continue
+        if task['name'] == 'Include vars':
+            for vars_path in task['with_items']:
+                if vars_path == "vars/globals.yml":
+                    vars_path = f"../playbooks/{vars_path}"
+                with open(vars_path) as f:
+                    nested_vars = yaml.load(f, Loader=yaml.FullLoader)
+                    flat = nested_to_record(nested_vars, sep='.')
+                    for key, value in flat.items():
+                        if isinstance(value, str) and (('image' or 'images') in key):
+                            if ('docker' not in value):
+                                value = 'docker.io/' + value
+                            key = inflection.camelize(key, False)
+                            docker_images[inflection.camelize(key, False)] = value
+    return docker_images
+
+def helm_command_offline(images_dict):
+    helm_command = {}
+    for key,value in images_dict.items():
+        value = value.split('/')[-2:]
+        if 'docker.io' in value[0]:
+            value.pop(0)
+        value = "offline_repo/"+'/'.join(value)
+        key = f"--set {key}"
+        helm_command[key] = value
+
+    return helm_command
+
+
+def print_images(images_dict):
+    for key, value in images_dict.items():
+        print(key, ' : ', value)
+
+def print_helm_command(helm_command):
+    for key, value in helm_command.items():
+        print(key, value, '\\')
+
+def main():
+    images = parse_roles_vars()
+    # print_images(images)
+    helm_command = helm_command_offline(images)
+    print_helm_command(helm_command)
+
+if __name__ == "__main__":
+    main()
