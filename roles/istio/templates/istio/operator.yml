@@ -147,7 +147,7 @@ spec:
 {% endif %}
       containers:
         - name: istio-operator
-          image: "{{ istio.operator_image }}"
+          image: "{{ istio.images.operator_image }}"
           command:
             - operator
             - server

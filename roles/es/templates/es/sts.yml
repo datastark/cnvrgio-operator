@@ -40,7 +40,7 @@ spec:
 {% endif %}
       containers:
       - name: elastic
-        image: "{{es.image}}"
+        image: "{{es.images.es_image}}"
         env:
         - name: "ES_CLUSTER_NAME"
           value: "cnvrg-es"
